@@ -31,10 +31,12 @@
  */
 
 #include <iostream>
+#ifndef _WIN32
 #include <unistd.h>
+#endif
 #include "../JuceLibraryCode/JuceHeader.h"
 
-#if JUCE_MINGW
+#if _WIN32
 #define sleep(a) Sleep(a * 1000)
 #include <windows.h>
 #endif

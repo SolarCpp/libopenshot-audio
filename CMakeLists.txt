@@ -33,6 +33,8 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/Modules")
 MESSAGE("--------------------------------------------------------------")
 MESSAGE("Determining Version Number (from Version.h file)")
 
+SET(CMAKE_DEBUG_POSTFIX "d" CACHE STRING "Debug Postfitx for lib, samples and tools")
+
 #### Get the lines related to libopenshot version from the Version.h header
 file(STRINGS ${CMAKE_CURRENT_SOURCE_DIR}/include/Version.h OPENSHOT_AUDIO_VERSION_LINES
   REGEX "#define[ ]+OPENSHOT_AUDIO_VERSION_.*[0-9]+;.*")
@@ -157,7 +159,7 @@ FILE(GLOB JUCE_SOURCES
 # Disable RPATH
 SET(CMAKE_MACOSX_RPATH 0)
 
-ADD_LIBRARY(openshot-audio SHARED
+ADD_LIBRARY(openshot-audio STATIC
 	${JUCE_SOURCES}
 )
 
