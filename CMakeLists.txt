@@ -187,7 +187,10 @@ set(LIB_INSTALL_DIR lib${LIB_SUFFIX})
 # Install Files
 INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/JuceLibraryCode/JuceHeader.h DESTINATION include/libopenshot-audio)
 INSTALL(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/JuceLibraryCode DESTINATION include/libopenshot-audio FILES_MATCHING PATTERN "*.h")
-INSTALL(TARGETS openshot-audio DESTINATION ${LIB_INSTALL_DIR})
+INSTALL(TARGETS openshot-audio 
+EXPORT openshot-audioTargets
+DESTINATION ${LIB_INSTALL_DIR}
+)
 
 ################### DOCUMENTATION ###################
 # Find Doxygen (used for documentation)
@@ -199,3 +202,23 @@ INSTALL(FILES ${doc_files} DESTINATION share/doc/libopenshot-audio)
 
 # Install manpage
 INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/doc/openshot-audio-test-sound.1 DESTINATION share/man/man1)
+
+# add_library(openshotaudio ALIAS openshot-audio)
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+    ${CMAKE_CURRENT_BINARY_DIR}/openshot-audioConfigVersion.cmake
+    VERSION ${PACKAGE_VERSION}
+    COMPATIBILITY AnyNewerVersion
+	)
+
+install(EXPORT openshot-audioTargets
+	FILE openshot-audioTargets.cmake
+	DESTINATION lib/cmake/openshot-audio
+	)
+
+configure_file(${CMAKE_SOURCE_DIR}/cmake/openshot-audioConfig.in.cmake openshot-audioConfig.cmake @ONLY)
+install(
+	FILES "${CMAKE_CURRENT_BINARY_DIR}/openshot-audioConfigVersion.cmake"
+	      "${CMAKE_CURRENT_BINARY_DIR}/openshot-audioConfig.cmake"
+    DESTINATION lib/cmake/openshot-audio
+)
